@@ -1,0 +1,27 @@
+GET http://localhost:3001/api/items
+
+###
+
+GET http://localhost:3001/api/items/1
+
+###
+
+POST http://localhost:3001/api/items
+content-type: application/json
+
+{
+    "name": "small mac burger",
+    "desc": "a tasteful burger"
+}
+###
+
+PUT http://localhost:3001/api/items/1
+content-type: application/json
+
+{
+    "name": "small mac burger",
+    "desc": "a tasteful burger"
+}
+###
+
+DELETE http://localhost:3001/api/items/4

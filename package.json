@@ -1,0 +1,17 @@
+{
+  "name": "restaurant",
+  "version": "1.0.0",
+  "description": "Features\r -Show all the menu items\r -User can place an order\r -Order can be picked up or delivered",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sequelize": "^6.32.1",
+    "sqlite3": "^5.1.6"
+  }
+}

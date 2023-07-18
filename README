@@ -1,0 +1,27 @@
+Features
+-Show all the menu items
+-User can place an order
+-Order can be picked up or delivered
+
+DB
+Item
+-name
+-description
+-category
+-state
+-price
+
+User
+-name
+-phone
+-email
+-address
+-password
+-state
+
+Order
+-date
+-Items
+-price
+-state
+-deliveryMethod
