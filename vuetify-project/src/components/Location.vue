@@ -2,14 +2,14 @@
   <v-sheet class="d-flex align-center justify-center flex-wrap text-center mx-auto px-4" elevation="4" height="800"
     rounded width="100%">
     <div> 
-      <h2 class="text-h4 font-weight-black text-orange">Our Location: 123 AVE, City, State, ZipCode</h2>
+      <h2 class="text-h4 font-weight-black text-orange">Addr: 123 AVE, City, State, ZipCode</h2>
 
-      <div class="text-h5 font-weight-medium mb-2">
+      <div class="text-h5 font-weight-medium mt-1">
        Tel: (123) 456-1234
       </div>
 
       <p class="text-body-2 mb-4">
-        Please follow the parking directions
+        Here are the parking instructions....
       </p>
       <v-row>
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2822.7806761080233!2d-93.29138368446431!3d44.96844997909819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52b32b6ee2c87c91%3A0xc20dff2748d2bd92!2sWalker+Art+Center!5e0!3m2!1sen!2sus!4v1514524647889" width="800" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>

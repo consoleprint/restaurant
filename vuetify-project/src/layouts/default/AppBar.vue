@@ -7,7 +7,12 @@
       </v-btn>
       <v-spacer></v-spacer>
       <v-responsive max-width="260">
-          <v-btn to="cart">Shopping Cart({{ store.count }})</v-btn>
+          <v-btn to="cart">Shopping Cart(
+            <v-scale-transition leave-absolute>
+        <span :key="`${ store.count}`">
+          {{  store.count }}
+        </span>
+      </v-scale-transition>)</v-btn>
       </v-responsive>
     </v-container>
   </v-app-bar>

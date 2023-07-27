@@ -6,63 +6,28 @@
           <v-col>
             <v-sheet min-height="70vh" rounded="lg">
               <v-container>
+
                 <v-row no-gutters>
                   <v-col cols="5" offset="1">
-                    <v-row>1. Customer Information</v-row>
-                    <v-row>
-                      <v-col cols="11">
-                        <v-text-field v-model="firstname" :rules="nameRules" :counter="10" label="First name"
-                          required></v-text-field>
-                        <v-text-field v-model="firstname" :rules="nameRules" :counter="10" label="First name"
-                          required></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row><v-divider :thickness="2"></v-divider></v-row>
-                    <v-row>2. Payment method</v-row>
-                    <v-row> <v-card>
 
-                        <v-card-title class="blue darken-1 white--text font-weight-black title">
-                          <v-spacer></v-spacer>
+                    <form @submit.prevent="submit">
+                      <v-text-field v-model="name.value.value" :counter="10" :error-messages="name.errorMessage.value"
+                        label="Name"></v-text-field>
 
-                          <v-img aspect-ratio="3.075" max-height="40" :src="URL_IMAGE" position="right" contain />
-                        </v-card-title>
+                      <v-text-field v-model="phone.value.value" :counter="7" :error-messages="phone.errorMessage.value"
+                        label="Phone Number"></v-text-field>
 
-                        <v-card-text class='pb-10'>
-                          <v-row>
-                            <v-col cols='6'>
-                              <v-subheader class="grey--text text--lighten-1 pl-0 subheader">CARDHOLDER’S
-                                NAME</v-subheader>
-                              <v-text-field single-line outlined label="Johny Relative" hide-details />
-                            </v-col>
+                      <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value"
+                        label="E-mail"></v-text-field>
 
-                            <v-col cols='6'>
-                              <v-subheader class="grey--text text--lighten-1 pl-0 subheader">CARD NUMBER</v-subheader>
-                              <v-text-field single-line outlined mask="credit-card" v-model="valueOfCardNumber"
-                                hide-details />
-                            </v-col>
+                      <v-btn class="mr-10" size="x-large" color="red" type="submit">
+                        pay
+                      </v-btn>
 
-                            <v-col col='4'>
-                              <v-subheader class="grey--text text--lighten-1 pl-0 subheader">EXPIRY DATE</v-subheader>
-                              <v-select :items="MonthList" label="Month" outlined append-icon='keyboard_arrow_down'
-                                hide-details />
-                            </v-col>
-
-                            <v-col col='4'>
-                              <v-subheader class="grey--text text--lighten-1 pl-0 subheader"></v-subheader>
-                              <v-select :items="YearList" label="Year" outlined append-icon='keyboard_arrow_down'
-                                hide-details />
-                            </v-col>
-
-                            <v-col col='4'>
-                              <v-subheader class="grey--text text--lighten-1 pl-0 subheader">CVV</v-subheader>
-                              <v-text-field single-line outlined hide-details />
-                            </v-col>
-
-                          </v-row>
-                        </v-card-text>
-
-                      </v-card></v-row>
-                      
+                      <v-btn @click="handleReset" size="x-large" color="grey" >
+                        clear
+                      </v-btn>
+                    </form>
                   </v-col>
                   <v-col cols="4" offset="1">
                     <v-row no-gutters>
@@ -77,31 +42,15 @@
                       </v-col>
                     </v-row>
 
-                    <v-row no-gutters v-for="n in 5" :key="n">
+                    <v-row no-gutters v-for="item in store.items" :key="n">
                       <v-col cols="4">
-                        Burger
-                      </v-col>
-                      <v-col cols="4">
-                        {{ n }}
+                        {{ item.name }}
                       </v-col>
                       <v-col cols="4">
-                        ${{ n * 2 }}
-                      </v-col>
-                    </v-row>
-                    <v-row no-gutters>
-                      <v-col cols="4" offset="4">
-                        Sub Total:
+                        {{ item.count }}
                       </v-col>
                       <v-col cols="4">
-                        <h4>$303</h4>
-                      </v-col>
-                    </v-row>
-                    <v-row no-gutters>
-                      <v-col cols="4" offset="4">
-                        Tax:
-                      </v-col>
-                      <v-col cols="4">
-                        <h4>$303</h4>
+                        ${{ item.price }}
                       </v-col>
                     </v-row>
                     <v-row no-gutters>
@@ -109,15 +58,7 @@
                         Total:
                       </v-col>
                       <v-col cols="4">
-                        <h3>$303</h3>
-                      </v-col>
-                    </v-row>
-
-                    <v-row class="mx-auto">
-                      <v-col cols="9">
-                        <v-btn color="red" variant="flat" block="" @click="pay">
-                          Pay
-                        </v-btn>
+                        <h3>${{ store.total() }}</h3>
                       </v-col>
                     </v-row>
 
@@ -134,9 +75,39 @@
 
 <script setup>
 import { useAppStore } from '@/store/app'
+import { useField, useForm } from 'vee-validate'
 
 const store = useAppStore()
-console.log(store)
-async function pay() {
-}
+
+const { handleSubmit, handleReset } = useForm({
+  validationSchema: {
+    name(value) {
+      if (value?.length >= 2) return true
+
+      return 'Name needs to be at least 2 characters.'
+    },
+    phone(value) {
+      if (value?.length > 9 && /[0-9-]+/.test(value)) return true
+
+      return 'Phone number needs to be at least 9 digits.'
+    },
+    email(value) {
+      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+
+      return 'Must be a valid e-mail.'
+    },
+  },
+})
+const name = useField('name')
+const phone = useField('phone')
+const email = useField('email')
+const submit = handleSubmit(values => {
+  var request = {
+    email: values.email,
+    name: values.name,
+    phone: values.phone,
+    items: store.items
+  }
+  alert(JSON.stringify(request, null, 2))
+})
 </script>
