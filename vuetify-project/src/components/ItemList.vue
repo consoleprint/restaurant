@@ -7,15 +7,9 @@
             <v-sheet min-height="70vh" rounded="lg">
               <v-container>
                 <v-row>
-                  <template v-for="n in 4" :key="n">
-                    <v-col class="mx-6" cols="12">
-                      <strong class="text-title-1">Category {{ n }}</strong>
-                    </v-col>
-
-                    <v-col v-for="j in store.products" :key="`${n}${j}`" cols="6" md="3">
+                    <v-col v-for="j in store.products" :key="`${j}`" >
                       <Item :item="j"/>
                     </v-col>
-                  </template>
                 </v-row>
 
               </v-container>

@@ -31,34 +31,40 @@
                   </v-col>
                   <v-col cols="4" offset="1">
                     <v-row no-gutters>
-                      <v-col cols="4">
-                        <h3>Item</h3>
+                      <v-col cols="3">
+                        <span class="text-h6">Item</span> 
                       </v-col>
-                      <v-col cols="4">
-                        <h3>Amount</h3>
+                      <v-col cols="3">
+                        <span class="text-h6">Unit Price</span> 
                       </v-col>
-                      <v-col cols="4">
-                        <h3>Price</h3>
+                      <v-col cols="3">
+                        <span class="text-h6">Amount</span> 
+                      </v-col>
+                      <v-col cols="3">
+                        <span class="text-h6">Price</span> 
                       </v-col>
                     </v-row>
 
                     <v-row no-gutters v-for="item in store.items" :key="n">
-                      <v-col cols="4">
+                      <v-col cols="3">
                         {{ item.name }}
                       </v-col>
-                      <v-col cols="4">
+                      <v-col cols="3">
+                        ${{ item.price }} 
+                      </v-col>
+                      <v-col cols="3">
                         {{ item.count }}
                       </v-col>
-                      <v-col cols="4">
-                        ${{ item.price }}
+                      <v-col cols="3">
+                        ${{ item.price * item.count }} 
                       </v-col>
                     </v-row>
                     <v-row no-gutters>
-                      <v-col cols="4" offset="4">
-                        Total:
+                      <v-col cols="3" offset="6">
+                        <span class="text-h6">Total: </span> 
                       </v-col>
-                      <v-col cols="4">
-                        <h3>${{ store.total() }}</h3>
+                      <v-col cols="3">
+                        <span class="text-h6">${{ store.total() }}</span> 
                       </v-col>
                     </v-row>
 
@@ -101,13 +107,13 @@ const { handleSubmit, handleReset } = useForm({
 const name = useField('name')
 const phone = useField('phone')
 const email = useField('email')
-const submit = handleSubmit(values => {
+const submit = handleSubmit(async values => {
   var request = {
     email: values.email,
     name: values.name,
     phone: values.phone,
     items: store.items
   }
-  alert(JSON.stringify(request, null, 2))
+  await store.submitOrder(request)
 })
 </script>

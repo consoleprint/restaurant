@@ -31,11 +31,28 @@ async function setupDB() {
                 defaultValue: 5,
                 allowNull: false,
             },
+            imageUrl: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
         });
 
         db.Order = sequelize.define('Order', {
             date: {
                 type: DataTypes.DATE,
+                defaultValue: new Date(),
+                allowNull: false
+            },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            phone: {
+                type: DataTypes.STRING,
                 allowNull: false
             },
         });
@@ -45,31 +62,36 @@ async function setupDB() {
         await db.Item.create({
             name: "Chocolate Cake",
             desc: "A rich and decadent chocolate cake with a creamy frosting.",
-            category: "main"
+            category: "main",
+            imageUrl: 'https://picsum.photos/200/300'
         });
 
         await db.Item.create({
             name: "Chicken Parmesan",
             desc: "A classic Italian dish of breaded chicken cutlets topped with tomato sauce and melted mozzarella cheese.",
-            category: "main"
+            category: "main",
+            imageUrl: 'https://picsum.photos/200/300'
         });
 
         await db.Item.create({
             name: "Steak and Potatoes",
             desc: "A hearty dish of grilled steak served with mashed potatoes and a side of vegetables.",
-            category: "main"
+            category: "main",
+            imageUrl: 'https://picsum.photos/200/300'
         });
 
         await db.Item.create({
             name: "Lasagna",
             desc: "A layered pasta dish with tomato sauce, meat sauce, and cheese.",
-            category: "main"
+            category: "main",
+            imageUrl: 'https://picsum.photos/200/300'
         });
 
         await db.Item.create({
             name: "Pizza",
             desc: "A savory dish of dough topped with tomato sauce, cheese, and your choice of toppings.",
-            category: "main"
+            category: "main",
+            imageUrl: 'https://picsum.photos/200/300'
         });
 
     } catch (error) {
@@ -93,17 +115,8 @@ async function startServer() {
                 res.json(products)
             })
         })
-        app.post('/api/items', (req, res) => {
-            db.Item.create(req.body).then(item => {
-                res.json(item)
-            })
-        })
-        app.put('/api/items/:id', (req, res) => {
-            db.Item.update(req.body,{
-                where:{
-                    id: req.params.id
-                }
-            }).then(item => {
+        app.post('/api/orders', (req, res) => {
+            db.Order.create(req.body).then(item => {
                 res.json(item)
             })
         })
