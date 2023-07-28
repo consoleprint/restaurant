@@ -56,9 +56,17 @@ async function setupDB() {
                 allowNull: false
             },
         });
-        db.Order.belongsToMany(db.Item, { through: 'OrderProduct' });
 
+        db.OrderProduct = sequelize.define('OrderProduct', {
+            count: {
+                type: DataTypes.INTEGER,
+                allowNull: false
+            }
+        });
+
+        db.Order.belongsToMany(db.Item, { through: db.OrderProduct });
         await sequelize.sync({ force: true });
+
         await db.Item.create({
             name: "Chocolate Cake",
             desc: "A rich and decadent chocolate cake with a creamy frosting.",
@@ -116,15 +124,39 @@ async function startServer() {
             })
         })
         app.post('/api/orders', (req, res) => {
-            db.Order.create(req.body).then(item => {
-                res.json(item)
+            let createdOrder ;
+            db.Order.create(req.body).then(r => {
+                console.log(r)
+                createdOrder = r
+                let orderProducts = []
+                req.body.items.map(i=>{
+                    orderProducts.push({
+                        OrderId: createdOrder.id,
+                        ItemId: i.id,
+                        count: i.count || 1
+                    })
+                })
+                console.log(orderProducts)
+                return db.OrderProduct.bulkCreate(orderProducts)
+            }).then(()=>{
+                return res.json(createdOrder)
             })
+        })
+        app.get('/api/orders/:id', (req, res) => {
+            db.Order.findOne({
+                where: {
+                    id: req.params.id
+                },
+                include: db.Item
+            }).then(p => {
+                res.json(p)
+            });
         })
         app.get('/api/items/:id', (req, res) => {
             db.Item.findOne({
                 where: {
                     id: req.params.id
-                },
+                }
             }).then(p => {
                 res.json(p)
             });

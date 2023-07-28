@@ -13,6 +13,10 @@ export const useAppStore = () => {
         const response = await fetch('/api/items');
         this.products = await response.json();
       },
+      async getOrder(id){
+        const response = await fetch(`/api/orders/${id}`);
+        return response.json();
+      },
       addItem(item) {
         let found = false
         for(let i of this.items){

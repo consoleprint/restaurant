@@ -22,19 +22,19 @@
 const links = [
   {
     displayText: 'home',
-    link: 'home'
+    link: '/home'
   },
   {
     displayText: 'menu',
-    link: 'menu'
+    link: '/menu'
   },
   {
     displayText: 'location',
-    link: 'location'
+    link: '/location'
   },
   {
     displayText: 'about',
-    link: 'about'
+    link: '/about'
   }
   // 'home',
   // 'menu',
