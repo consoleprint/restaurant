@@ -18,12 +18,7 @@ async function setupDB() {
             },
             state: {
                 type: DataTypes.ENUM(['draft', 'live', 'archived']),
-                defaultValue: 'draft',
-                allowNull: false
-            },
-            category: {
-                type: DataTypes.ENUM(['appetizer', 'main', 'dessert']),
-                defaultValue: 'main',
+                defaultValue: 'live',
                 allowNull: false
             },
             price: {
@@ -132,7 +127,11 @@ async function startServer() {
             res.send('hello world')
         })
         app.get('/api/items', (req, res) => {
-            db.Item.findAll().then(products => {
+            db.Item.findAll({
+                where:{
+                    state: 'live'
+                }
+            }).then(products => {
                 res.json(products)
             })
         })
@@ -144,7 +143,6 @@ async function startServer() {
             })
             req.body.price = price
             db.Order.create(req.body).then(r => {
-                console.log(r)
                 createdOrder = r
                 let orderProducts = []
                 req.body.items.map(i=>{
@@ -155,7 +153,6 @@ async function startServer() {
                         price: i.price
                     })
                 })
-                console.log(orderProducts)
                 return db.OrderProduct.bulkCreate(orderProducts)
             }).then(()=>{
                 return res.json(createdOrder)
