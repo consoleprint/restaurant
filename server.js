@@ -55,13 +55,21 @@ async function setupDB() {
                 type: DataTypes.STRING,
                 allowNull: false
             },
+            price: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
         });
 
         db.OrderProduct = sequelize.define('OrderProduct', {
             count: {
                 type: DataTypes.INTEGER,
                 allowNull: false
-            }
+            },
+            price: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
         });
 
         db.Order.belongsToMany(db.Item, { through: db.OrderProduct });
@@ -71,35 +79,40 @@ async function setupDB() {
             name: "Chocolate Cake",
             desc: "A rich and decadent chocolate cake with a creamy frosting.",
             category: "main",
-            imageUrl: 'https://picsum.photos/200/300'
+            price: 5,
+            imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836'
         });
 
         await db.Item.create({
             name: "Chicken Parmesan",
-            desc: "A classic Italian dish of breaded chicken cutlets topped with tomato sauce and melted mozzarella cheese.",
+            desc: "A classic Italian dish of breaded chicken cutlets topped with tomato sauce.",
             category: "main",
-            imageUrl: 'https://picsum.photos/200/300'
+            price: 10,
+            imageUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288'
         });
 
         await db.Item.create({
             name: "Steak and Potatoes",
             desc: "A hearty dish of grilled steak served with mashed potatoes and a side of vegetables.",
             category: "main",
-            imageUrl: 'https://picsum.photos/200/300'
+            price: 6,
+            imageUrl: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f'
         });
 
         await db.Item.create({
             name: "Lasagna",
             desc: "A layered pasta dish with tomato sauce, meat sauce, and cheese.",
             category: "main",
-            imageUrl: 'https://picsum.photos/200/300'
+            price: 7,
+            imageUrl: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327'
         });
 
         await db.Item.create({
             name: "Pizza",
             desc: "A savory dish of dough topped with tomato sauce, cheese, and your choice of toppings.",
             category: "main",
-            imageUrl: 'https://picsum.photos/200/300'
+            price: 3,
+            imageUrl: 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0'
         });
 
     } catch (error) {
@@ -125,6 +138,11 @@ async function startServer() {
         })
         app.post('/api/orders', (req, res) => {
             let createdOrder ;
+            let price = 0;
+            req.body.items.map(i=>{
+                price+=(i.price * i.count)
+            })
+            req.body.price = price
             db.Order.create(req.body).then(r => {
                 console.log(r)
                 createdOrder = r
@@ -133,7 +151,8 @@ async function startServer() {
                     orderProducts.push({
                         OrderId: createdOrder.id,
                         ItemId: i.id,
-                        count: i.count || 1
+                        count: i.count,
+                        price: i.price
                     })
                 })
                 console.log(orderProducts)

@@ -82,6 +82,7 @@
 <script setup>
 import { useAppStore } from '@/store/app'
 import { useField, useForm } from 'vee-validate'
+import router from '@/router'
 
 const store = useAppStore()
 
@@ -114,6 +115,8 @@ const submit = handleSubmit(async values => {
     phone: values.phone,
     items: store.items
   }
-  await store.submitOrder(request)
+  const order = await store.submitOrder(request)
+  router.push({ path: `/order/${order.id}` })
+
 })
 </script>

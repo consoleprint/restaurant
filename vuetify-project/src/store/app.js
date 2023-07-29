@@ -69,7 +69,9 @@ export const useAppStore = () => {
           body: JSON.stringify(request)
         };
         const response =  await fetch("/api/orders", requestOptions)
-        return await response.json();
+        this.items = []
+        this.count = 0
+        return await response.json()
       }
     },
   })
