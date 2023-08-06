@@ -1,27 +1,52 @@
-Features
--Show all the menu items
--User can place an order
--Order can be picked up or delivered
-
-DB
+Backend Design
+Data model
+  
 Item
+-id
 -name
--description
--category
--state
--price
-
-User
--name
--phone
--email
--address
--password
+-desc
+-price (don't worry about datatypes)
 -state
 
 Order
+-id
 -date
--Items
 -price
+-username
+-email or phone
 -state
--deliveryMethod
+-Items
+-state ('DRAFT', 'PENDING_PAYMENT', 'PAID', 'FULFILLED', 'DELIVERED', 'REFUNDED', 'ERROR')
+
+Payment
+-id
+-OrderId
+-paymentSystem
+-state ('INPROGRESS', 'PAID', 'REFUND' , 'ERROR')
+-price
+
+
+Item <> Order
+
+ItemOrder
+-ItemId
+-OrderId
+-amount
+-price
+
+
+N:M
+
+  API
+
+Item R
+/api/items GET
+
+Order CR
+/api/orders POST
+/api/orders/:id GET
+
+$20 * 1000
+
+$20k revenue daily
+$10M

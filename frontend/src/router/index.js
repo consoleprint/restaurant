@@ -1,28 +1,56 @@
+// Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+const routes = [
+  {
+    path: '/',
+    component: () => import('@/layouts/default/Default.vue'),
+    redirect:{
+      name: 'home'
+    },
+    children: [
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import( '@/views/Home.vue'),
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: () => import('@/views/About.vue'),
+      },
+      {
+        path: 'menu',
+        name: 'menu',
+        component: () => import('@/views/Menu.vue'),
+      },
+      {
+        path: 'location',
+        name: 'location',
+        component: () => import('@/views/Location.vue'),
+      },
+      {
+        path: 'cart',
+        name: 'cart',
+        component: () => import('@/views/Cart.vue'),
+      },
+      {
+        path: 'checkout',
+        name: 'checkout',
+        component: () => import('@/views/Checkout.vue'),
+      },
+      {
+        path: 'order/:id',
+        name: 'order',
+        component: () => import('@/views/Order.vue'),
+      },
+    ],
+  },
+]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/about/:id',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    },
-    {
-      path: '/cart',
-      name: 'cart',
-      component: () => import('../views/CartView.vue')
-    }
-  ]
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
 })
 
 export default router

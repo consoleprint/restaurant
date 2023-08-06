@@ -1,27 +1,22 @@
 GET http://localhost:3001/api/items
 
 ###
-
-GET http://localhost:3001/api/items/1
+GET http://localhost:3001/api/orders/1
 
 ###
-
-POST http://localhost:3001/api/items
+POST http://localhost:3001/api/orders
 content-type: application/json
 
 {
-    "name": "small mac burger",
-    "desc": "a tasteful burger"
+    "name": "foo bar",
+    "email": "abc@ef.com",
+    "phone": "1233321322",
+    "items":[{
+        "item":{
+            "id": 1,
+            "price": 12
+            },
+        "amount": 2
+        }
+    ]
 }
-###
-
-PUT http://localhost:3001/api/items/1
-content-type: application/json
-
-{
-    "name": "small mac burger",
-    "desc": "a tasteful burger"
-}
-###
-
-DELETE http://localhost:3001/api/items/4
