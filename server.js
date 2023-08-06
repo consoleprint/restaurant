@@ -177,6 +177,7 @@ async function startServer() {
                 res.json(p)
             });
         })
+        app.use(express.static('frontend/dist'));
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`)
         })

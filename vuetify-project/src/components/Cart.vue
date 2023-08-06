@@ -4,7 +4,7 @@
       <v-container>
         <v-row>
           <v-col>
-            <v-sheet v-if="store.items.length > 0" min-height="70vh" rounded="lg">
+            <v-sheet v-if="store.cartItems.length > 0" min-height="70vh" rounded="lg">
               <v-container>
                 <v-row no-gutters v-for="item in store.items" :key="n" link>
                   <v-col>
